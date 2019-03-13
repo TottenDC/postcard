@@ -1,0 +1,25 @@
+{
+  "name": "postcard",
+  "version": "1.0.0",
+  "description": "Using MERN stack, this web-based app will give the user quick stats on a destination city with a short update on weather, distance, food, and places of interest.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TottenDC/postcard.git"
+  },
+  "keywords": [
+    "MERN",
+    "React",
+    "Postcard",
+    "Travel"
+  ],
+  "author": "Daniel Totten",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/TottenDC/postcard/issues"
+  },
+  "homepage": "https://github.com/TottenDC/postcard#readme"
+}
