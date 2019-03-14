@@ -2,10 +2,15 @@
 
 // Modules
 const express = require('express');
+const request = require('request-promise-native');
 const router = express.Router();
 const auth = require('basic-auth');
 const { User } = require('../models/User');
 require('dotenv').config()
+const googleMapsClient = require('@google/maps').createClient({
+    key: process.env.GOOGLE_KEY,
+    Promise: Promise
+});
 
 // Authentication Middleware
 // const authenticateUser = (req, res, next) => {
@@ -29,8 +34,50 @@ require('dotenv').config()
 
 // Routes
 // todo Add back the authenicateUser middleware
-router.get('/postcard', (req, res, next) => {
-    
+router.get('/v1/postcard', (req, res, next) => {
+    /*
+    1. Do the geocode.
+    2. In the "then" block:
+        3. Set reponse to a variable.
+        4. Create fetch variables using await for the 3 APIs
+        5. Add all that shit into an object literal
+        6. Send it as res.json()
+    7. Error handle like a pro
+    */
+    googleMapsClient.geocode({address: req.query.dest})
+        .asPromise()
+        .then((response) => {
+            if (response.json.status === "OK") {
+                const destGeocode = response.json.results[0].geometry.location
+                const weatherOptions = {
+                    uri: `https://api.darksky.net/forecast/${process.env.DARKSKY_KEY}/${destGeocode.lat},${destGeocode.lng}?exclude=[minutely,hourly,alerts,flags]`,
+                    json: true
+                };
+                const placesOptions = {
+                    uri: `https://en.wikipedia.org/w/api.php?action=query&generator=geosearch&prop=pageimages%7Cdescription&ggscoord=${destGeocode.lat}%7C${destGeocode.lng}&format=json&querylimit=5`,
+                    json: true
+                };
+                request(weatherOptions)
+                    .then(weather => {
+                        const weatherData = {...weather};
+                        request(placesOptions)
+                            .then(places => {
+                                const placeData = {...weatherData, ...places};
+                                res.json(placeData);
+                                // request(foodOptions)
+                                //     .then(food => {
+                                //         responseData = {...food};
+                                //     })
+                                //     .catch(err => next(err));
+                            })
+                            .catch(err => next(err));
+                    })
+                    .catch(err => next(err));
+                
+            }
+            
+        })
+        .catch(err => next(err));
 });
 
 module.exports = router;
