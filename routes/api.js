@@ -54,21 +54,42 @@ router.get('/v1/postcard', (req, res, next) => {
                     json: true
                 };
                 const placesOptions = {
-                    uri: `https://en.wikipedia.org/w/api.php?action=query&generator=geosearch&prop=pageimages%7Cdescription&ggscoord=${destGeocode.lat}%7C${destGeocode.lng}&format=json&querylimit=5`,
+                    uri: `https://en.wikipedia.org/w/api.php`,
+                    qs: {
+                        action: 'query',
+                        generator: 'geosearch',
+                        prop: 'pageimages|description',
+                        ggscoord: `${destGeocode.lat}|${destGeocode.lng}`,
+                        format: 'json'
+                    },
                     json: true
                 };
+                const foodOptions = {
+                    uri: `https://api.yelp.com/v3/businesses/search?term=restaurants&location=${req.query.dest}&limit=5&sort_by=rating`,
+                    qs: {
+                        term: 'restaurant',
+                        location: req.query.dest,
+                        limit: 5,
+                        sort_by: 'rating'
+                    },
+                    headers: {
+                        'Authorization': `Bearer ${process.env.YELP_KEY}`
+                    },
+                    json: true
+                }
+
                 request(weatherOptions)
                     .then(weather => {
                         const weatherData = {...weather};
                         request(placesOptions)
                             .then(places => {
                                 const placeData = {...weatherData, ...places};
-                                res.json(placeData);
-                                // request(foodOptions)
-                                //     .then(food => {
-                                //         responseData = {...food};
-                                //     })
-                                //     .catch(err => next(err));
+                                request(foodOptions)
+                                    .then(food => {
+                                        const foodData = {...weatherData, ...placeData, ...food};
+                                        res.json(foodData);
+                                    })
+                                    .catch(err => next(err));
                             })
                             .catch(err => next(err));
                     })
