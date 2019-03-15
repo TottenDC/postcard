@@ -32,40 +32,34 @@ const googleMapsClient = require('@google/maps').createClient({
 //     }
 // };
 
-// Routes
+// Route
 // todo Add back the authenicateUser middleware
+// todo Set up appropriate error handlers
 router.get('/v1/postcard', (req, res, next) => {
-    /*
-    1. Do the geocode.
-    2. In the "then" block:
-        3. Set reponse to a variable.
-        4. Create fetch variables using await for the 3 APIs
-        5. Add all that shit into an object literal
-        6. Send it as res.json()
-    7. Error handle like a pro
-    */
     googleMapsClient.geocode({address: req.query.dest})
         .asPromise()
         .then((response) => {
             if (response.json.status === "OK") {
+                // Variables
                 const destGeocode = response.json.results[0].geometry.location
                 const weatherOptions = {
                     uri: `https://api.darksky.net/forecast/${process.env.DARKSKY_KEY}/${destGeocode.lat},${destGeocode.lng}?exclude=[minutely,hourly,alerts,flags]`,
                     json: true
                 };
-                const placesOptions = {
-                    uri: `https://en.wikipedia.org/w/api.php`,
+                const placeOptions = {
+                    uri: `https://api.yelp.com/v3/businesses/search`,
                     qs: {
-                        action: 'query',
-                        generator: 'geosearch',
-                        prop: 'pageimages|description',
-                        ggscoord: `${destGeocode.lat}|${destGeocode.lng}`,
-                        format: 'json'
+                        term: 'places of interest',
+                        location: req.query.dest,
+                        limit: 5,
+                    },
+                    headers: {
+                        'Authorization': `Bearer ${process.env.YELP_KEY}`
                     },
                     json: true
                 };
                 const foodOptions = {
-                    uri: `https://api.yelp.com/v3/businesses/search?term=restaurants&location=${req.query.dest}&limit=5&sort_by=rating`,
+                    uri: `https://api.yelp.com/v3/businesses/search`,
                     qs: {
                         term: 'restaurant',
                         location: req.query.dest,
@@ -76,25 +70,138 @@ router.get('/v1/postcard', (req, res, next) => {
                         'Authorization': `Bearer ${process.env.YELP_KEY}`
                     },
                     json: true
-                }
+                };
 
-                request(weatherOptions)
-                    .then(weather => {
-                        const weatherData = {...weather};
-                        request(placesOptions)
-                            .then(places => {
-                                const placeData = {...weatherData, ...places};
-                                request(foodOptions)
-                                    .then(food => {
-                                        const foodData = {...weatherData, ...placeData, ...food};
-                                        res.json(foodData);
+                // 3rd Party API Calls
+                const distanceData = googleMapsClient.distanceMatrix({
+                                        origins: [req.query.start],
+                                        destinations: [req.query.dest],
+                                        units: 'imperial'
                                     })
-                                    .catch(err => next(err));
-                            })
-                            .catch(err => next(err));
+                                    .asPromise()
+                                    .then(distance => {
+                                        const {
+                                            json: {
+                                                rows: [
+                                                    {
+                                                        elements: [
+                                                            {
+                                                                duration: {
+                                                                    text: tripDuration
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            },
+                                            json: {
+                                                rows: [
+                                                    {
+                                                        elements: [
+                                                            {
+                                                                distance: {
+                                                                    text: tripDistance
+                                                                }
+                                                            }
+                                                        ]
+                                                    }
+                                                ]
+                                            }
+                                        } = distance;
+                                        return ({tripDuration, tripDistance});    
+                                    }); // end distanceData
+                const weatherData = request(weatherOptions)
+                                    .then(weather => {
+                                        const {
+                                            currently: {
+                                                summary: currentSummary
+                                            },
+                                            currently: {
+                                                temparature: currentTemp
+                                            },
+                                            daily: {
+                                                summary: dailySummary
+                                            },
+                                            daily: {
+                                                data: dailyArray
+                                            }
+                                        } = weather;
+                                        let dailyData = [];
+                                        for (let i = 0; i < 3; i++) {
+                                            let {
+                                                summary,
+                                                temperatureHigh: highTemp,
+                                                temperatureLow: lowTemp
+                                            } = dailyArray[i];
+                                            dailyArray[i] = {
+                                                summary,
+                                                highTemp,
+                                                lowTemp
+                                            };
+                                            dailyData.push(dailyArray[i]);
+                                        }
+                                        return ({
+                                            currentSummary, 
+                                            currentTemp, 
+                                            dailySummary,
+                                            dailyData
+                                        });
+                                    });
+                const placeData = request(placeOptions)
+                                    .then(places => {
+                                        const {
+                                            businesses: placesArray
+                                        } = places;
+                                        let placeData = [];
+                                        placesArray.forEach((place) => {
+                                            let {
+                                                name: title,
+                                                image_url: img,
+                                                url: link,
+                                                location: {
+                                                    display_address: address
+                                                }
+                                            } = place;
+                                            place = {
+                                                title,
+                                                img,
+                                                link,
+                                                address
+                                            };
+                                            placeData.push(place);
+                                        });
+                                        return ({placeData});
+                                    });
+                const foodData = request(foodOptions)
+                                    .then(food => {
+                                        const {
+                                            businesses: restaurantArray
+                                        } = food;
+                                        let foodData = [];
+                                        restaurantArray.forEach((restaurant) => {
+                                            let {
+                                                name: title,
+                                                image_url: img,
+                                                url: link,
+                                                location: {
+                                                    display_address: address
+                                                }
+                                            } = restaurant;
+                                            restaurant = {
+                                                title,
+                                                img,
+                                                link,
+                                                address
+                                            };
+                                            foodData.push(restaurant);
+                                        });
+                                        return ({foodData});
+                                    });
+                Promise.all([distanceData, weatherData, placeData, foodData])
+                    .then(results => {
+                        res.json(results);
                     })
                     .catch(err => next(err));
-                
             }
             
         })
