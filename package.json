@@ -24,6 +24,7 @@
   "homepage": "https://github.com/TottenDC/postcard#readme",
   "dependencies": {
     "@google/maps": "^0.5.5",
+    "axios": "^0.18.0",
     "bcrypt": "^3.0.4",
     "connect-mongo": "^2.0.3",
     "dotenv": "^7.0.0",
