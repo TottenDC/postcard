@@ -19,10 +19,6 @@ const emailValidation = [validator, 'Please enter a valid email.']
 
 // Schemas
 const UserSchema = new Schema({
-    username: {
-        type: String, 
-        required: [true, 'User name is required.']
-    },
     emailAddress: {
         type: String, 
         required: [true,  'User email is required.'],
@@ -37,6 +33,10 @@ const UserSchema = new Schema({
     },
     icon: {
         type: String
+    },
+    previousSearches: {
+        type: [String],
+        lowercase: true
     }
 });
 

@@ -3,7 +3,10 @@
 // Modules
 const express = require('express');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 const apiRouter = require('./routes/api');
+const userRouter = require('./routes/user');
 
 // Variables
 const app = express();
@@ -24,13 +27,34 @@ db.once('open', () => {
   console.log('Database connected.')
 });
 
+// Session setup
+app.use(session({
+    secret: 'yay first app',
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({
+      mongooseConnection: db
+    })
+}));
+
+// Express middleware
+app.use(express.json());
+
 // Route declarations
 // Serve React app as static asset in production
 if (process.env.NODE_ENV === "production") {
     app.use(express.static("client/build"));
 }
 
+app.use(userRouter);
 app.use('/api', apiRouter);
+app.get('/home', (req, res, next) => {
+    if (!req.session || !req.session.userId) {
+        const err = new Error('Please log in or register');
+        err.status = 401;
+        next(err);
+    }
+});
 
 // 404 error handler
     // todo Add appropriate handler
@@ -39,11 +63,11 @@ app.use((req, res) => {
 });
   
 // Global error handler
-    // todo Set up appropriate handler
+    // todo Set up error handler to create a message and redirect to an error page (build with React)
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(err.status || 500);
-    res.send(err.stack);
+    res.redirect(`/error?message=${err.message}`);
 });
   
 // Start port

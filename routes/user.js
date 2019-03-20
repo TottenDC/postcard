@@ -18,6 +18,9 @@ router.post('/register', (req, res, next) => {
             err.status = 400;
             return next(err);
         }
+        req.session.userId = user._id;
+        req.session.cookie.icon = user.icon;
+        req.session.cookie.searches = user.previousSearches;
         res.redirect('/home');
     });
 });
@@ -31,6 +34,8 @@ router.post('/login', (req, res, next) => {
             return next(error);
           } else {
             req.session.userId = user._id;
+            req.session.cookie.icon = user.icon;
+            req.session.cookie.searches = user.previousSearches;
             return res.redirect('/home');
           }
         });

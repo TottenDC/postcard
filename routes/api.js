@@ -4,7 +4,6 @@
 const express = require('express');
 const request = require('request-promise-native');
 const router = express.Router();
-const auth = require('basic-auth');
 const { User } = require('../models/User');
 require('dotenv').config()
 const googleMapsClient = require('@google/maps').createClient({
@@ -12,30 +11,46 @@ const googleMapsClient = require('@google/maps').createClient({
     Promise: Promise
 });
 
-// Authentication Middleware
-// const authenticateUser = (req, res, next) => {
-//     const credentials = auth(req);
-//     if (credentials) {
-//         User.authenticate(credentials.name, credentials.pass, (err, user) => {
-//             if (err || !user) {
-//                 const error = new Error('Wrong email or password.');
-//                 error.status = 401;
-//                 return next(error);
-//             }
-//             req.currentUser = user;
-//             return next();
-//         }); 
-//     } else {
-//         const err = new Error('Provide credentials.');
-//         err.status = 400;
-//         return next(err);
-//     }
-// };
+// User Verification and Updating Middleware
+const verifyAndUpdate = (req, res, next) => {
+    if (req.session && req.session.userId) {
+        User.findById(req.session.userId, (err, user) => {
+            // Check for errors or no user
+            if (err || !user) {
+                const error = new Error ('Please sign in.');
+                error.status = 401;
+                return next(error);
+            }
+            // Variable Declarations
+            let start = req.query.start.toLowerCase().replace(/,/g, '');
+            let dest = req.query.dest.toLowerCase().replace(/,/g, '');
+            let prevSearch = user.previousSearches;
+            // Update the user's search array
+            if (prevSearch.length = 3) {
+                prevSearch.splice(0, 1);
+                prevSearch.push(`To ${start} From ${dest}`);
+            } else {
+                prevSearch.push(`To ${start} From ${dest}`);
+            }
+            user.previousSearches = prevSearch;
+            user.save((err, user) => {
+                if (err) {
+                    err.status = 500;
+                    return next(err);
+                }
+                req.session.cookie.searches = user.previousSearches;
+                next();
+            })
+        })
+    }
+    const error = new Error('Please sign in or register.')
+    error.status = 401;
+    next(error);
+};
 
 // Route
-// todo Add back the authenicateUser middleware
 // todo Set up appropriate error handlers
-router.get('/v1/postcard', (req, res, next) => {
+router.get('/v1/postcard', verifyAndUpdate, (req, res, next) => {
     googleMapsClient.geocode({address: req.query.dest})
         .asPromise()
         .then((response) => {
