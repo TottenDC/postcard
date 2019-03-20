@@ -57,13 +57,13 @@ app.get('/home', (req, res, next) => {
 });
 
 // 404 error handler
-    // todo Add appropriate handler
-app.use((req, res) => {
-    res.send('404');
+app.use((req, res, next) => {
+    const err = new Error('Page Not Found');
+    err.status = 404;
+    next(err);
 });
   
 // Global error handler
-    // todo Set up error handler to create a message and redirect to an error page (build with React)
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(err.status || 500);
