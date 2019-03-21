@@ -13,7 +13,7 @@ class Register extends Component {
         email: '',
         password: '',
         confirmPassword: '',
-        icon: 'airplane',
+        icon: airplaneIcon,
     }
 
     handleInputChange = (event) => {
