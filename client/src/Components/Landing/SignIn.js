@@ -31,11 +31,11 @@ class SignIn extends Component {
                     <div class="col-4">
                     
                     </div>
-                    [// todo Add height class to this to make it a long rect]
-                    <div class="col-3 border border-dark">
+                    <div class="col-2 border border-dark">
                     
                     </div>
                 </div>
+                <br />
                 <div className="row justify-content-center">
                     <h5 class="text-center">Sign In</h5>
                     <form onSubmit={this.handleSubmit}>
@@ -49,7 +49,7 @@ class SignIn extends Component {
                         </div>
                         <button type="submit" className="btn btn-primary">Submit</button>
                     </form>
-                    <hr />
+                    <hr className="my-4" />
                     <p className="text-center">
                         Not a member?
                         <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#registerModal">

@@ -4,7 +4,7 @@ import axios from 'axios';
 // Icon Imports
 import airplaneIcon from '../../icons/airplane.svg';
 import truckIcon from '../../icons/truck.svg';
-import rocketIcon from '../../icons/truck.svg';
+import rocketIcon from '../../icons/rocket.svg';
 import earthIcon from '../../icons/earth.svg';
 
 class Register extends Component {
@@ -61,6 +61,8 @@ class Register extends Component {
                                     <input type="password" className="form-control" id="confirmPassword" name="confirmPassword" value={this.state.confirmPassword} onChange={this.handleInputChange} placeholder="Please confirm your password" required />
                                 </div>
                                 <div className="form-group">
+                                    <label>Please select a user icon:</label>
+                                    <br />
                                     <div className="form-check form-check-inline">
                                         <input 
                                             className="form-check-input" 
