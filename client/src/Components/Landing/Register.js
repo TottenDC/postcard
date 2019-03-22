@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 // Icon Imports
-import airplaneIcon from '../../icons/airplane.svg';
-import truckIcon from '../../icons/truck.svg';
-import rocketIcon from '../../icons/rocket.svg';
-import earthIcon from '../../icons/earth.svg';
+import airplaneIcon from '../../icons/userIcons/airplane.svg';
+import truckIcon from '../../icons/userIcons/truck.svg';
+import rocketIcon from '../../icons/userIcons/rocket.svg';
+import earthIcon from '../../icons/userIcons/earth.svg';
 
 class Register extends Component {
     

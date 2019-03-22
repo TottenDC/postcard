@@ -58,7 +58,7 @@ router.get('/v1/postcard', verifyAndUpdate, (req, res, next) => {
                 // Variables
                 const destGeocode = response.json.results[0].geometry.location
                 const weatherOptions = {
-                    uri: `https://api.darksky.net/forecast/${process.env.DARKSKY_KEY}/${destGeocode.lat},${destGeocode.lng}?exclude=[minutely,hourly,alerts,flags]`,
+                    uri: `https://api.darksky.net/forecast/${process.env.DARKSKY_KEY}/${destGeocode.lat},${destGeocode.lng}?exclude=[currently,minutely,hourly,alerts,flags]`,
                     json: true
                 };
                 const placeOptions = {
@@ -128,12 +128,6 @@ router.get('/v1/postcard', verifyAndUpdate, (req, res, next) => {
                 const weatherData = request(weatherOptions)
                                     .then(weather => {
                                         const {
-                                            currently: {
-                                                summary: currentSummary
-                                            },
-                                            currently: {
-                                                temparature: currentTemp
-                                            },
                                             daily: {
                                                 summary: dailySummary
                                             },
@@ -145,19 +139,19 @@ router.get('/v1/postcard', verifyAndUpdate, (req, res, next) => {
                                         for (let i = 0; i < 3; i++) {
                                             let {
                                                 summary,
+                                                icon,
                                                 temperatureHigh: highTemp,
                                                 temperatureLow: lowTemp
                                             } = dailyArray[i];
                                             dailyArray[i] = {
                                                 summary,
+                                                icon,
                                                 highTemp,
                                                 lowTemp
                                             };
                                             dailyData.push(dailyArray[i]);
                                         }
-                                        return ({
-                                            currentSummary, 
-                                            currentTemp, 
+                                        return ({ 
                                             dailySummary,
                                             dailyData
                                         });

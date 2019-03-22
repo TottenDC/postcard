@@ -1,0 +1,10 @@
+exports.overcast = require('./overcast.svg');
+exports.clearDay = require('./clearDay.svg');
+exports.clearNight = require('./clearNight.svg');
+exports.cloudyDay = require('./cloudyDay.svg');
+exports.cloudyNight = require('./cloudyNight.svg');
+exports.fog = require('./fog.svg');
+exports.rain = require('./rain.svg');
+exports.snow = require('./snow.svg');
+exports.wind = require('./wind.svg');
+exports.error = require('./error.svg');
