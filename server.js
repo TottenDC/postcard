@@ -4,6 +4,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const session = require('express-session');
+const cookiesMiddleware = require('universal-cookie-express');
 const MongoStore = require('connect-mongo')(session);
 const apiRouter = require('./routes/api');
 const userRouter = require('./routes/user');
@@ -39,6 +40,9 @@ app.use(session({
 
 // Express middleware
 app.use(express.json());
+
+// Cookies middleware
+app.use(cookiesMiddleware());
 
 // Route declarations
 // Serve React app as static asset in production

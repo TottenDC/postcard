@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import { Redirect, withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 class SignIn extends Component {
     
     state = {
         signInEmail: '',
-        signInPassword: ''
+        signInPassword: '',
+        submitted: false
     }
 
     handleInputChange = (event) => {
@@ -21,30 +23,42 @@ class SignIn extends Component {
             email: this.state.signInEmail,
             password: this.state.signInPassword
         })
+            .then(response => {
+                if (response.status === 200) {
+                    this.setState({
+                        submitted: true
+                    });
+                }
+            })
             .catch((err) => console.log(err));
     }
 
     render() {
+        if (this.state.submitted) {
+            return <Redirect to="/home" />
+        }
         return (
             <div className="col-sm-4 order-sm-2">
                 <div className="row justify-content-end">
-                    <div class="col-4">
+                    <div className="col-4">
                     
                     </div>
-                    <div class="col-2 border border-dark">
+                    <div className="col-2 border border-dark">
                     
                     </div>
                 </div>
                 <br />
                 <div className="row justify-content-center">
-                    <h5 class="text-center">Sign In</h5>
+                    <h5 className="text-center">Sign In</h5>
+                </div>
+                <div className="row justify-content-center">
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">
-                            <label for="signInEmail">Email address</label>
+                            <label htmlFor="signInEmail">Email address</label>
                             <input type="email" className="form-control" id="signInEmail" name="signInEmail" value={this.state.signInEmail} onChange={this.handleInputChange} aria-describedby="emailHelp" placeholder="example@email.com" required />
                         </div>
                         <div className="form-group">
-                            <label for="signInPassword">Password</label>
+                            <label htmlFor="signInPassword">Password</label>
                             <input type="password" className="form-control" id="signInPassword" name="signInPassword" value={this.state.signInPassword} onChange={this.handleInputChange} placeholder="Password" required />
                         </div>
                         <button type="submit" className="btn btn-primary">Submit</button>
@@ -62,4 +76,4 @@ class SignIn extends Component {
     }
 }
 
-export default SignIn;
+export default withRouter(SignIn);

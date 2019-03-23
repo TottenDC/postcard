@@ -52,13 +52,19 @@ class App extends Component {
   }
 
   performSearch = async (start, dest) => {
-    axios.get(`api/v1/postcard?start=${start}&dest=${dest}`)
+    axios.get('api/v1/postcard', {
+      params: {
+        start: start,
+        dest: dest
+      }
+    })
       .then( response => {
         this.setState({ 
           searchResults: response.data,
           loading: false,
           searched: true
         });
+        this.displayWeatherIcons(this.state.searchResults[1]);
       })
       .catch(function (error) {
         console.log('Parsing error', error);
@@ -68,23 +74,29 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-          <Route exact path='/' component={Landing} />
-          <Route exact path='/home' 
-            render={() => 
-              <Home 
-                searched={this.state.searched}
-                loading={this.state.loading}
-                performSearch={this.performSearch}
-                switchStates={this.switchLoadAndSearch}
-                displayWeatherIcons={this.displayWeatherIcons}
-              />
-            } 
-          />
-          <Route exact path='/error' 
+        <Route exact path='/' 
           render={(props) =>
-              <Errors {...props} />
-            } 
-          />
+            <Landing {...props} />
+          } 
+        />
+        <Route exact path='/home' 
+          render={(props) => 
+            <Home 
+              {...props}
+              searched={this.state.searched}
+              loading={this.state.loading}
+              weatherIcons={this.state.weatherIcons}
+              searchResults={this.state.searchResults}
+              performSearch={this.performSearch}
+              switchStates={this.switchLoadAndSearch}
+            />
+          } 
+        />
+        <Route exact path='/error' 
+        render={(props) =>
+            <Errors {...props} />
+          } 
+        />
       </BrowserRouter>
     );
   }

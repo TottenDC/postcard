@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Redirect, withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 // Icon Imports
@@ -14,6 +15,7 @@ class Register extends Component {
         password: '',
         confirmPassword: '',
         icon: airplaneIcon,
+        submitted: false
     }
 
     handleInputChange = (event) => {
@@ -31,12 +33,22 @@ class Register extends Component {
             confirmPassword: this.state.confirmPassword,
             icon: this.state.icon
         })
+            .then(response => {
+                if (response.status === 200) {
+                    this.setState({
+                        submitted: true
+                    });
+                }
+            })
             .catch((err) => console.log(err));
     }
 
     render() {
+        if (this.state.submitted) {
+            return <Redirect to="/home" />
+        }
         return (
-            <div className="modal fade" id="registerModal" tabindex="-1" role="dialog" aria-labelledby="registerModal" aria-hidden="true">
+            <div className="modal fade" id="registerModal" tabIndex="-1" role="dialog" aria-labelledby="registerModal" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
@@ -48,16 +60,16 @@ class Register extends Component {
                         <div className="modal-body">
                             <form onSubmit={this.handleSubmit}>
                                 <div className="form-group">
-                                    <label for="email">Email address</label>
+                                    <label htmlFor="email">Email address</label>
                                     <input type="email" className="form-control" id="email" name="email" value={this.state.email} onChange={this.handleInputChange} aria-describedby="emailHelp" placeholder="example@email.com" required />
                                     <small id="emailHelp" className="form-text text-muted">We'll never share your email with anyone else.</small>
                                 </div>
                                 <div className="form-group">
-                                    <label for="password">Password</label>
+                                    <label htmlFor="password">Password</label>
                                     <input type="password" className="form-control" id="password" name="password" value={this.state.password} onChange={this.handleInputChange} placeholder="Password" required />
                                 </div>
                                 <div className="form-group">
-                                    <label for="confirmPassword">Confirm password</label>
+                                    <label htmlFor="confirmPassword">Confirm password</label>
                                     <input type="password" className="form-control" id="confirmPassword" name="confirmPassword" value={this.state.confirmPassword} onChange={this.handleInputChange} placeholder="Please confirm your password" required />
                                 </div>
                                 <div className="form-group">
@@ -73,7 +85,7 @@ class Register extends Component {
                                             checked={this.state.icon === airplaneIcon} 
                                             onChange={this.handleInputChange} 
                                         />
-                                        <label className="form-check-label" for="radio1">
+                                        <label className="form-check-label" htmlFor="radio1">
                                             <img className="img-fluid" src={airplaneIcon} alt='airplane' />
                                         </label>
                                     </div>
@@ -87,7 +99,7 @@ class Register extends Component {
                                             checked={this.state.icon === truckIcon} 
                                             onChange={this.handleInputChange} 
                                         />
-                                        <label className="form-check-label" for="radio2">
+                                        <label className="form-check-label" htmlFor="radio2">
                                             <img className='img-fluid' src={truckIcon} alt='truck' />
                                         </label>
                                     </div>
@@ -101,7 +113,7 @@ class Register extends Component {
                                             checked={this.state.icon === rocketIcon} 
                                             onChange={this.handleInputChange} 
                                         />
-                                        <label className="form-check-label" for="radio3">
+                                        <label className="form-check-label" htmlFor="radio3">
                                             <img className="img-fluid" src={rocketIcon} alt="rocket" />
                                         </label>
                                     </div>
@@ -115,7 +127,7 @@ class Register extends Component {
                                             checked={this.state.icon === earthIcon} 
                                             onChange={this.handleInputChange} 
                                         />
-                                        <label className="form-check-label" for="radio4">
+                                        <label className="form-check-label" htmlFor="radio4">
                                             <img className="img-fluid" src={earthIcon} alt="earth" />
                                         </label>
                                     </div>
@@ -130,4 +142,4 @@ class Register extends Component {
     }
 }
 
-export default Register;
+export default withRouter(Register);

@@ -21,7 +21,7 @@ router.post('/register', (req, res, next) => {
         req.session.userId = user._id;
         req.session.cookie.icon = user.icon;
         req.session.cookie.searches = user.previousSearches;
-        res.redirect('/home');
+        res.sendStatus(200);
     });
 });
 
@@ -36,7 +36,7 @@ router.post('/login', (req, res, next) => {
             req.session.userId = user._id;
             req.session.cookie.icon = user.icon;
             req.session.cookie.searches = user.previousSearches;
-            return res.redirect('/home');
+            res.sendStatus(200);
           }
         });
       } else {
@@ -50,7 +50,7 @@ router.get('/logout', (req, res, next) => {
     if (req.session) {
       req.session.destroy((err) => {
         if (err) return next(err);
-        return res.redirect('/');
+        res.sendStatus(200);
       });
     }
   });

@@ -28,9 +28,9 @@ const verifyAndUpdate = (req, res, next) => {
             // Update the user's search array
             if (prevSearch.length = 3) {
                 prevSearch.splice(0, 1);
-                prevSearch.push(`To ${start} From ${dest}`);
+                prevSearch.push([start, dest]);
             } else {
-                prevSearch.push(`To ${start} From ${dest}`);
+                prevSearch.push([start, dest]);
             }
             user.previousSearches = prevSearch;
             user.save((err, user) => {
@@ -50,7 +50,7 @@ const verifyAndUpdate = (req, res, next) => {
 
 // Route
 // todo Set up appropriate error handlers
-router.get('/v1/postcard', verifyAndUpdate, (req, res, next) => {
+router.get('/v1/postcard',  (req, res, next) => {
     googleMapsClient.geocode({address: req.query.dest})
         .asPromise()
         .then((response) => {
@@ -206,7 +206,7 @@ router.get('/v1/postcard', verifyAndUpdate, (req, res, next) => {
                                         });
                                         return ({foodData});
                                     });
-                Promise.all([distanceData, weatherData, placeData, foodData])
+                Promise.all([distanceData, weatherData, placeData, foodData, req.query.dest])
                     .then(results => {
                         res.json(results);
                     })

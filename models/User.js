@@ -35,7 +35,7 @@ const UserSchema = new Schema({
         type: String
     },
     previousSearches: {
-        type: [String],
+        type: [[String]],
         lowercase: true
     }
 });

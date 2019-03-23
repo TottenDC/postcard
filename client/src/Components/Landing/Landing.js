@@ -3,14 +3,14 @@ import About from './About';
 import SignIn from './SignIn';
 import Register from './Register';
 
-const Landing = () => {
+const Landing = (props) => {
     return (
         <div className="container">
             <div className="row">
-                <SignIn />
+                <SignIn {...props} />
                 <About />
             </div>
-            <Register />
+            <Register {...props} />
         </div> 
     );
 }
