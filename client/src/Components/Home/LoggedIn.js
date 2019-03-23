@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import Cookies from 'js-cookie';
 import postmark from '../../icons/appIcons/postmark.svg';
 
 
@@ -10,8 +11,8 @@ class LoggedIn extends Component {
     state = {
         startLocation: '',
         destination: '',
-        // userIcon: cookies.get('icon'),
-        // userPreviousSearches: cookies.get('searches'),
+        userIcon: Cookies.get('icon'),
+        userPreviousSearches: Cookies.get('searches'),
         loggedOut: false
     }
 
@@ -42,10 +43,10 @@ class LoggedIn extends Component {
     }
 
     render() {
+        console.log(Cookies.get());
         if (this.state.loggedOut) {
             return <Redirect to="/" />
         }
-        console.log(this.state);
         return (
             <div className="col-sm-4 order-sm-2">
                 <div className="row justify-content-end">

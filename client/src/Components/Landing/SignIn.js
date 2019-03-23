@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect, withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 class SignIn extends Component {
@@ -76,4 +76,4 @@ class SignIn extends Component {
     }
 }
 
-export default withRouter(SignIn);
+export default SignIn;

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect, withRouter } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 
 // Icon Imports
@@ -142,4 +142,4 @@ class Register extends Component {
     }
 }
 
-export default withRouter(Register);
+export default Register;
