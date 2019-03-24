@@ -59,14 +59,15 @@ UserSchema.statics.authenticate = function(email, password, callback) {
                 const error = new Error('User not found.');
                 error.status = 401;
                 return callback(error);
+            } else {
+                bcrypt.compare(password, user.password, function (err, result) {
+                    if (result) {
+                        return callback(null, user);
+                    } else {
+                        return callback();
+                    }
+                });
             }
-            bcrypt.compare(password, user.password, (err, result) => {
-                if (result) {
-                    return callback(null, user);
-                } else {
-                    return callback();
-                }
-            });
         });
 };
 
