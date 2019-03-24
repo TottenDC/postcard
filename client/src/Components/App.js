@@ -4,7 +4,6 @@ import {
   Route
 } from 'react-router-dom';
 import axios from 'axios';
-import { CookiesProvider, withCookies } from 'react-cookie';
 import '../css/App.css';
 
 // Components
@@ -53,19 +52,14 @@ class App extends Component {
   }
 
   performSearch = async (start, dest) => {
-    axios.get('api/v1/postcard', {
-      params: {
-        start: start,
-        dest: dest
-      }
-    })
+    axios.get(`/api/v1/postcard?start=${start}&dest=${dest}`)
       .then( response => {
         this.setState({ 
           searchResults: response.data,
           loading: false,
           searched: true
         });
-        this.displayWeatherIcons(this.state.searchResults[1]);
+        this.displayWeatherIcons(this.state.searchResults[1].dailyData);
       })
       .catch(function (error) {
         console.log('Parsing error', error);
@@ -74,7 +68,6 @@ class App extends Component {
 
   render() {
     return (
-      <CookiesProvider>
         <BrowserRouter>
           <Route exact path='/' 
             render={(props) =>
@@ -85,7 +78,6 @@ class App extends Component {
             render={(props) => 
               <Home 
                 {...props}
-                cookies={this.props.cookies}
                 searched={this.state.searched}
                 loading={this.state.loading}
                 weatherIcons={this.state.weatherIcons}
@@ -101,9 +93,8 @@ class App extends Component {
             } 
           />
         </BrowserRouter>
-      </CookiesProvider>
     );
   }
 }
 
-export default withCookies(App);
+export default App;

@@ -3,7 +3,6 @@
 // Modules
 const express = require('express');
 const router = express.Router();
-const Cookies = require('universal-cookie');
 const { User } = require('../models/User');
 
 // Routes
@@ -15,14 +14,11 @@ router.post('/register', (req, res, next) => {
     }
     let user = new User(req.body);
     user.save((err, user) => {
-        const cookies = new Cookies(req.headers.cookie);
         if (err) {
             err.status = 400;
             return next(err);
         }
         req.session.userId = user._id;
-        cookies.set('icon', user.icon, { path: '/' });
-        cookies.set('searches', user.previousSearches, { path: '/' });
         res.sendStatus(200);
     });
 });
@@ -35,10 +31,7 @@ router.post('/login', (req, res, next) => {
             error.status = 401;
             return next(error);
           } else {
-            const cookies = new Cookies(req.headers.cookie);
             req.session.userId = user._id;
-            cookies.set('icon', user.icon, { path: '/' });
-            cookies.set('searches', user.previousSearches, { path: '/' });
             res.sendStatus(200);
           }
         });
@@ -57,5 +50,18 @@ router.get('/logout', (req, res, next) => {
       });
     }
   });
+
+router.get('/user', (req, res, next) => {
+  if (req.session.userId) {
+    User.findById(req.session.userId, (err, user) => {
+      if (err) console.log(err);
+      const userInfo = {
+        icon: user.icon,
+        searches: user.previousSearches
+      };
+      res.json(userInfo);
+    });
+  }
+})
 
 module.exports = router;

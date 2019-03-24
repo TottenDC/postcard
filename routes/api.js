@@ -38,7 +38,6 @@ const verifyAndUpdate = (req, res, next) => {
                     err.status = 500;
                     return next(err);
                 }
-                req.session.cookie.searches = user.previousSearches;
                 next();
             })
         })
@@ -50,7 +49,7 @@ const verifyAndUpdate = (req, res, next) => {
 
 // Route
 // todo Set up appropriate error handlers
-router.get('/v1/postcard',  (req, res, next) => {
+router.get('/v1/postcard', verifyAndUpdate, (req, res, next) => {
     googleMapsClient.geocode({address: req.query.dest})
         .asPromise()
         .then((response) => {

@@ -4,13 +4,29 @@ import axios from 'axios';
 import postmark from '../../icons/appIcons/postmark.svg';
 
 class LoggedIn extends Component {
+
+    componentDidMount() {
+        this.updateUserInfo();
+    }
     
     state = {
         startLocation: '',
         destination: '',
-        userIcon: this.props.cookies.get('icon'),
-        userPreviousSearches: this.props.cookies.get('searches'),
+        userIcon: '',
+        userPreviousSearches: [],
         loggedOut: false
+    }
+
+    updateUserInfo() {
+        axios.get('/user')
+            .then(response => {
+                let userInfo = response.data;
+                this.setState({
+                    userIcon: userInfo.icon,
+                    userPreviousSearches: userInfo.searches
+                });
+            })
+            .catch((err) => console.log(err));
     }
 
     handleInputChange = (event) => {
@@ -20,10 +36,11 @@ class LoggedIn extends Component {
         });
     }
 
-    handleSubmit = (event) => {
+    handleSubmit = async (event) => {
         event.preventDefault();
-        this.props.switchStates();
-        this.props.performSearch(this.state.startLocation, this.state.destination);
+        await this.props.switchStates();
+        await this.props.performSearch(this.state.startLocation, this.state.destination);
+        await this.updateUserInfo();
     }
 
     handleLogOut = (event) => {
@@ -40,7 +57,6 @@ class LoggedIn extends Component {
     }
 
     render() {
-        console.log(this.props.cookies.getAll());
         if (this.state.loggedOut) {
             return <Redirect to="/" />
         }
@@ -60,15 +76,15 @@ class LoggedIn extends Component {
                 <div className="row">
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group row">
-                            <label htmlFor="startLocation" className="col-sm-2 col-form-label">To:</label>
+                            <label htmlFor="destination" className="col-sm-2 col-form-label">To:</label>
                             <div className="col-sm-10">
-                                <input type="text" className="form-control" id="startLocation" name="startLocation" value={this.state.startLocation} onChange={this.handleInputChange} placeholder="City, State" required />
+                                <input type="text" className="form-control" id="destination" name="destination" value={this.state.destination} onChange={this.handleInputChange} placeholder="City, State" required />
                             </div>
                         </div>
                         <div className="form-group row">
-                            <label htmlFor="destination" className="col-sm-2 col-form-label">For:</label>
+                            <label htmlFor="startLocation" className="col-sm-2 col-form-label">From:</label>
                             <div className="col-sm-10">
-                                <input type="text" className="form-control" id="destination" name="destination" value={this.state.destination} onChange={this.handleInputChange} placeholder="City, State" required />
+                                <input type="text" className="form-control" id="startLocation" name="startLocation" value={this.state.startLocation} onChange={this.handleInputChange} placeholder="City, State" required />
                             </div>
                         </div>
                         <div className="row justify-content-around">
@@ -88,7 +104,7 @@ class LoggedIn extends Component {
                         <ol>
                             {this.state.userPreviousSearches &&
                                 this.state.userPreviousSearches.map((search, index) => {
-                                    return <li key={`a${index}`} className="text-capitalize">`to ${search[0]} from ${search[1]}`</li>
+                                    return <li key={`a${index}`} className="text-capitalize">to {search[0]} from {search[1]}</li>
                             })}
                         </ol>
                     </div>
