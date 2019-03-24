@@ -36,7 +36,7 @@ class Result extends Component {
                 <div className="row">
                     {this.props.weatherIcons.map((icon, index) => {
                         return (
-                            <div className="col-sm-4">
+                            <div key={`d${index}`} className="col-sm-4">
                                 <div className="card h-100">
                                     <img className="card-img-top" src={icon} alt="Weather icon" />
                                     <div className="card-body">

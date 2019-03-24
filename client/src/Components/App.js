@@ -51,7 +51,7 @@ class App extends Component {
     });
   }
 
-  performSearch = async (start, dest) => {
+  performSearch = (start, dest) => {
     axios.get(`/api/v1/postcard?start=${start}&dest=${dest}`)
       .then( response => {
         this.setState({ 

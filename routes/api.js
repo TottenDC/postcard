@@ -38,13 +38,14 @@ const verifyAndUpdate = (req, res, next) => {
                     err.status = 500;
                     return next(err);
                 }
-                next();
+                return next();
             })
         })
+    } else {
+        const error = new Error('Please sign in or register.')
+        error.status = 401;
+        next(error);
     }
-    const error = new Error('Please sign in or register.')
-    error.status = 401;
-    next(error);
 };
 
 // Route

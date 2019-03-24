@@ -36,11 +36,11 @@ class LoggedIn extends Component {
         });
     }
 
-    handleSubmit = async (event) => {
+    handleSubmit = (event) => {
         event.preventDefault();
-        await this.props.switchStates();
-        await this.props.performSearch(this.state.startLocation, this.state.destination);
-        await this.updateUserInfo();
+        this.props.switchStates();
+        this.props.performSearch(this.state.startLocation, this.state.destination);
+        this.updateUserInfo();
     }
 
     handleLogOut = (event) => {
