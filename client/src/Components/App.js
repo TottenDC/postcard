@@ -4,6 +4,7 @@ import {
   Route
 } from 'react-router-dom';
 import axios from 'axios';
+import { CookiesProvider, withCookies } from 'react-cookie';
 import '../css/App.css';
 
 // Components
@@ -73,33 +74,36 @@ class App extends Component {
 
   render() {
     return (
-      <BrowserRouter>
-        <Route exact path='/' 
+      <CookiesProvider>
+        <BrowserRouter>
+          <Route exact path='/' 
+            render={(props) =>
+              <Landing {...props} />
+            } 
+          />
+          <Route exact path='/home' 
+            render={(props) => 
+              <Home 
+                {...props}
+                cookies={this.props.cookies}
+                searched={this.state.searched}
+                loading={this.state.loading}
+                weatherIcons={this.state.weatherIcons}
+                searchResults={this.state.searchResults}
+                performSearch={this.performSearch}
+                switchStates={this.switchLoadAndSearch}
+              />
+            } 
+          />
+          <Route exact path='/error' 
           render={(props) =>
-            <Landing {...props} />
-          } 
-        />
-        <Route exact path='/home' 
-          render={(props) => 
-            <Home 
-              {...props}
-              searched={this.state.searched}
-              loading={this.state.loading}
-              weatherIcons={this.state.weatherIcons}
-              searchResults={this.state.searchResults}
-              performSearch={this.performSearch}
-              switchStates={this.switchLoadAndSearch}
-            />
-          } 
-        />
-        <Route exact path='/error' 
-        render={(props) =>
-            <Errors {...props} />
-          } 
-        />
-      </BrowserRouter>
+              <Errors {...props} />
+            } 
+          />
+        </BrowserRouter>
+      </CookiesProvider>
     );
   }
 }
 
-export default App;
+export default withCookies(App);

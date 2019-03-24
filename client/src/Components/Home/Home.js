@@ -8,6 +8,7 @@ const Home = (props) => {
             <div className="row">
                 <LoggedIn 
                     {...props}
+                    cookies={props.cookies}
                     searched={props.searched}
                     switchStates={props.switchStates}
                     performSearch={props.performSearch}

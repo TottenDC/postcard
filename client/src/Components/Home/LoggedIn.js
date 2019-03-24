@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import Cookies from 'js-cookie';
 import postmark from '../../icons/appIcons/postmark.svg';
-
-
 
 class LoggedIn extends Component {
     
     state = {
         startLocation: '',
         destination: '',
-        userIcon: Cookies.get('icon'),
-        userPreviousSearches: Cookies.get('searches'),
+        userIcon: this.props.cookies.get('icon'),
+        userPreviousSearches: this.props.cookies.get('searches'),
         loggedOut: false
     }
 
@@ -43,7 +40,7 @@ class LoggedIn extends Component {
     }
 
     render() {
-        console.log(Cookies.get());
+        console.log(this.props.cookies.getAll());
         if (this.state.loggedOut) {
             return <Redirect to="/" />
         }
