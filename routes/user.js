@@ -3,6 +3,7 @@
 // Modules
 const express = require('express');
 const router = express.Router();
+const Cookies = require('universal-cookie');
 const { User } = require('../models/User');
 
 // Routes
@@ -14,13 +15,14 @@ router.post('/register', (req, res, next) => {
     }
     let user = new User(req.body);
     user.save((err, user) => {
+        const cookies = new Cookies(req.headers.cookie);
         if (err) {
             err.status = 400;
             return next(err);
         }
         req.session.userId = user._id;
-        req.session.cookie.icon = user.icon;
-        req.session.cookie.searches = user.previousSearches;
+        cookies.set('icon', user.icon, { path: '/' });
+        cookies.set('searches', user.previousSearches, { path: '/' });
         res.sendStatus(200);
     });
 });
@@ -33,9 +35,10 @@ router.post('/login', (req, res, next) => {
             error.status = 401;
             return next(error);
           } else {
+            const cookies = new Cookies(req.headers.cookie);
             req.session.userId = user._id;
-            req.session.cookie.icon = user.icon;
-            req.session.cookie.searches = user.previousSearches;
+            cookies.set('icon', user.icon, { path: '/' });
+            cookies.set('searches', user.previousSearches, { path: '/' });
             res.sendStatus(200);
           }
         });
