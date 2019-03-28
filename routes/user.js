@@ -26,11 +26,11 @@ router.post('/register', (req, res, next) => {
 router.post('/login', (req, res, next) => {
     if (req.body.email && req.body.password) {
         User.authenticate(req.body.email, req.body.password, (err, user) => {
-          // if (err || !user) {
-          //   const error = new Error('Wrong email or password.');
-          //   error.status = 401;
-          //   return next(error);
-          // }
+          if (err || !user) {
+            const error = new Error('Wrong email or password.');
+            error.status = 401;
+            return next(error);
+          }
           req.session.userId = user._id;
           res.sendStatus(200);
         });
