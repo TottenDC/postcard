@@ -63,12 +63,12 @@ class LoggedIn extends Component {
         return (
             <div className="col-sm-4 order-sm-2">
                 <div className="row justify-content-end">
-                    <div className="col-4 uiTop mt-4">
+                    <div className="col-auto col-md-4 uiTop mt-4">
                         { this.props.searched && 
                             <img className="img-fluid" src={postmark} alt="Travel stamp" />
                         }
                     </div>
-                    <div className="col-2 uiTop mr-4 mt-4 stamp text-center">
+                    <div className=" col-2 uiTop mt-4 stamp text-center">
                         <img src={this.state.userIcon} alt="Profile icon" />
                     </div>
                 </div>
@@ -92,19 +92,22 @@ class LoggedIn extends Component {
                                 <button type="submit" className="btn btn-primary">Send</button>
                             </div>
                             <div className="col-5">
-                                <button type="button" className="btn btn-primary" onClick={this.handleLogOut}>Log Out</button>
+                                <button type="button" className="btn btn-primary btn-logout" onClick={this.handleLogOut}>Log Out</button>
                             </div>
                         </div>
                     </form>
                 </div>
-                <div className="row mt-3">
+                <div className="row mt-5">
                     <div className="col">
-                        <h5 className="text-center">Previous Trips</h5>
-                        <hr className="my-4" />
+                        <h3 className="text-center font-weight-bold">Previous Trips</h3>
+                        <hr className="my-2" />
                         <ol>
                             {this.state.userPreviousSearches &&
                                 this.state.userPreviousSearches.map((search, index) => {
-                                    return <li key={`a${index}`} className="text-capitalize">to {search[1]} from {search[0]}</li>
+                                    return <li key={`a${index}`} className="text-capitalize largerText">
+                                                <p>to {search[1]}</p>
+                                                <p>from {search[0]}</p>
+                                            </li>
                             })}
                         </ol>
                     </div>

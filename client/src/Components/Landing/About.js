@@ -7,9 +7,9 @@ const About = () => {
                 <h1> Welcome to Postcard</h1>
                 <p className="lead">Safe travels!</p>
                 <hr className="my-4" />
-                <p className="aboutParagraph">Wanna quick getaway? Don't feel like browsing multiple sites to find basic travel information? Postcard is here to help.</p>
+                <p className="typeText">Wanna quick getaway? Don't feel like browsing multiple sites to find basic travel information? Postcard is here to help.</p>
                 <br />
-                <p className="aboutParagraph">Find simple travel information, weather, places of interest, and restaurant options quickly with Postcard!</p>
+                <p className="typeText">Find simple travel information, weather, places of interest, and restaurant options quickly with Postcard!</p>
             </div>
         </div>
     );

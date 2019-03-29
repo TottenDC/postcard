@@ -7,10 +7,10 @@ class Result extends Component {
         return (
             <div className="col-sm-8 order-sm-1">
                 <div className="row justify-content-between">
-                    <div className="col-sm-7">
-                        <h2 className="text-capitalize">Greetings From {data[4]}!</h2>
+                    <div className="col-md-7 mt-4">
+                        <h1 className="text-capitalize">Greetings From {data[4]}!</h1>
                     </div>
-                    <div className="col-sm-3">
+                    <div className="col-md-5 mt-4 travelResult typeText">
                         <table className="table table-borderless">
                             <tbody>
                                 <tr>
@@ -25,24 +25,23 @@ class Result extends Component {
                         </table>
                     </div>
                 </div>
-                <div className="row">
-                    <div className="col-sm-4">
-                        <h3>Weather:</h3>
+                <div className="row justify-content-between mt-3">
+                    <div className="col-sm-4 col-md-2">
+                        <h3 className="font-weight-bold">Weather:</h3>
                     </div>
-                    <div className="col-sm-8">
+                    <div className="col-sm-8 col-md-9 largestText">
                         <p>{data[1].dailySummary}</p>
                     </div>
                 </div>
                 <div className="row">
                     {this.props.weatherIcons.map((icon, index) => {
                         return (
-                            <div key={`d${index}`} className="col-sm-4">
-                                <div className="card h-100">
+                            <div key={`d${index}`} className="col-md-4">
+                                <div className="card h-100 typeText">
                                     <img className="card-img-top" src={icon} alt="Weather icon" />
                                     <div className="card-body">
-                                        <h4 className="card-title">{data[1].dailyData[index].summary}</h4>
+                                        <p className="card-title">{data[1].dailyData[index].summary}</p>
                                         <p className="card-text">High: {Math.round(data[1].dailyData[index].highTemp)} &#8457;</p>
-                                        <br />
                                         <p className="card-text">Low: {Math.round(data[1].dailyData[index].lowTemp)} &#8457;</p>
                                     </div>
                                 </div>
@@ -51,33 +50,33 @@ class Result extends Component {
                     })}
                     
                 </div>
-                <div className="row">
-                    <h3>Explore:</h3>
+                <div className="row mt-3">
+                    <h3 className="font-weight-bold">Explore:</h3>
                 </div>
                 <div className="row justify-content-around">
                     <div className="col-sm-5">
-                        <p>Check these places out</p>
-                        <ol>
+                        <p className="largestText">Check these places out</p>
+                        <ol className="typeText">
                             {data[2].placeData.map((place,index) => {
                                 return (
                                     <li key={`b${index}`}>
-                                        <a href={place.link} className="text-reset">{place.title}</a>
+                                        <a href={place.link} className="text-reset largerText">{place.title}</a>
                                         <br />
-                                        <small className="text-muted">{place.address.toString().replace(/,(?!\s)/g, ', ')}</small>
+                                        <p>{place.address.toString().replace(/,(?!\s)/g, ', ')}</p>
                                     </li>
                                 );
                             })}
                         </ol>
                     </div>
                     <div className="col-sm-5">
-                        <p>I hope you're hungry</p>
-                        <ol>
+                        <p className="largestText">I hope you're hungry</p>
+                        <ol className="typeText">
                             {data[3].foodData.map((restaurant, index) => {
                                 return (
                                     <li key={`c${index}`}>
-                                        <a href={restaurant.link} className="text-reset">{restaurant.title}</a>
+                                        <a href={restaurant.link} className="text-reset largerText">{restaurant.title}</a>
                                         <br />
-                                        <small className="text-muted">{restaurant.address.toString().replace(/,(?!\s)/g, ', ')}</small>
+                                        <p>{restaurant.address.toString().replace(/,(?!\s)/g, ', ')}</p>
                                     </li>
                                 );
                             })}

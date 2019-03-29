@@ -7,7 +7,7 @@ const Loading = () => {
                 <h1> Loading</h1>
                 <p className="lead">Thanks for being patient!</p>
                 <hr className="my-4" />
-                <p className="aboutParagraph">Traditional mail was much worse, trust me.</p>
+                <p className="typeText">Traditional mail was much worse, trust me.</p>
             </div>
         </div>
     )
