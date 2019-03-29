@@ -50,6 +50,16 @@ code {
   font-family: 'Special Elite', cursive;
 }
 
+.stamp {
+  border: 2rem solid transparent;
+  border-image: url('../icons/appIcons/stampOutline.svg') 10 round;
+}
+
+.stamp img {
+  transform: translate(-50%, -50%);
+}
+
 .uiTop {
   height: 50px;
 }
+
