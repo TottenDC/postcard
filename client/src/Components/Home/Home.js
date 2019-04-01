@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from 'react-router-dom';
 
 // Components
 import Blank from './Blank';
@@ -21,19 +22,24 @@ const Home = (props) => {
         display = <Blank />;
     }
     
-    return (
-        <div className="container">
-            <div className="row">
-                <LoggedIn 
-                    {...props}
-                    searched={props.searched}
-                    switchStates={props.switchStates}
-                    performSearch={props.performSearch}
-                />
-                {display}
-            </div>
-        </div> 
-    );
+    if (props.userLoggedIn) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <LoggedIn 
+                        {...props}
+                        searched={props.searched}
+                        switchStates={props.switchStates}
+                        performSearch={props.performSearch}
+                    />
+                    {display}
+                </div>
+            </div> 
+        );
+    } else {
+        return <Redirect to="/error" />;
+    }
+    
 }
 
 export default Home;

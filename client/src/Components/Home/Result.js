@@ -50,7 +50,7 @@ class Result extends Component {
                     })}
                     
                 </div>
-                <div className="row mt-3">
+                <div className="row mt-3 mb-2">
                     <h3 className="font-weight-bold">Explore:</h3>
                 </div>
                 <div className="row justify-content-around">
@@ -60,7 +60,7 @@ class Result extends Component {
                             {data[2].placeData.map((place,index) => {
                                 return (
                                     <li key={`b${index}`}>
-                                        <a href={place.link} className="text-reset largerText">{place.title}</a>
+                                        <a href={place.link} target="_blank" rel="noopener noreferrer" className="text-reset largerText">{place.title}</a>
                                         <br />
                                         <p>{place.address.toString().replace(/,(?!\s)/g, ', ')}</p>
                                     </li>
@@ -74,7 +74,7 @@ class Result extends Component {
                             {data[3].foodData.map((restaurant, index) => {
                                 return (
                                     <li key={`c${index}`}>
-                                        <a href={restaurant.link} className="text-reset largerText">{restaurant.title}</a>
+                                        <a href={restaurant.link} target="_blank" rel="noopener noreferrer" className="text-reset largerText">{restaurant.title}</a>
                                         <br />
                                         <p>{restaurant.address.toString().replace(/,(?!\s)/g, ', ')}</p>
                                     </li>

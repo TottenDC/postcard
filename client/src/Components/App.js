@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import {
   BrowserRouter,
-  Route
+  Route,
+  Redirect,
+  Switch
 } from 'react-router-dom';
 import axios from 'axios';
 import '../css/App.css';
@@ -10,6 +12,7 @@ import '../css/App.css';
 import Landing from './Landing/Landing';
 import Home from './Home/Home';
 import Errors from './Error/Errors';
+import NotFound from './Error/NotFound';
 
 // Weather Icons
 import weatherIcons from '../icons/weatherIcons';
@@ -18,6 +21,7 @@ class App extends Component {
 
   state = {
     loading: false,
+    userLoggedIn: false,
     searched: false,
     searchResults: [],
     weatherIcons: []
@@ -61,37 +65,44 @@ class App extends Component {
         });
         this.displayWeatherIcons(this.state.searchResults[1].dailyData);
       })
-      .catch(function (error) {
-        console.log('Parsing error', error);
+      .catch(err => <Redirect to="/error" />);
+  }
+
+  userLogIn = () => {
+    this.setState({
+      userLoggedIn: true
     });
   }
 
   render() {
     return (
         <BrowserRouter>
-          <Route exact path='/' 
-            render={(props) =>
-              <Landing {...props} />
-            } 
-          />
-          <Route exact path='/home' 
-            render={(props) => 
-              <Home 
-                {...props}
-                searched={this.state.searched}
-                loading={this.state.loading}
-                weatherIcons={this.state.weatherIcons}
-                searchResults={this.state.searchResults}
-                performSearch={this.performSearch}
-                switchStates={this.switchLoadAndSearch}
-              />
-            } 
-          />
-          <Route exact path='/error' 
-          render={(props) =>
-              <Errors {...props} />
-            } 
-          />
+          <Switch>
+            <Route exact path='/' 
+              render={(props) =>
+                <Landing 
+                  {...props} 
+                  userLogIn={this.userLogIn}
+                />
+              } 
+            />
+            <Route exact path='/home' 
+              render={(props) => 
+                <Home 
+                  {...props}
+                  searched={this.state.searched}
+                  loading={this.state.loading}
+                  weatherIcons={this.state.weatherIcons}
+                  searchResults={this.state.searchResults}
+                  performSearch={this.performSearch}
+                  switchStates={this.switchLoadAndSearch}
+                  userLoggedIn={this.state.userLoggedIn}
+                />
+              } 
+            />
+            <Route exact path='/error' component={Errors} />
+            <Route component={NotFound} />
+          </Switch>
         </BrowserRouter>
     );
   }

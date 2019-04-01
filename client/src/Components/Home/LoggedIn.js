@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import axios from 'axios';
+
+//Images
 import postmark from '../../icons/appIcons/postmark.svg';
+import yelpLogo from '../../icons/appIcons/Yelp_trademark_RGB.png';
 
 class LoggedIn extends Component {
 
     componentDidMount() {
         this.updateUserInfo();
+        let docBody = document.querySelector('body');
+        if (docBody.getAttribute('class') === 'modal-open') {
+            docBody.setAttribute('class', '');
+            const modalHideDiv = document.querySelector('.modal-backdrop');
+            modalHideDiv.style.display = 'none';
+        }
     }
     
     state = {
@@ -26,7 +35,7 @@ class LoggedIn extends Component {
                     userPreviousSearches: userInfo.searches
                 });
             })
-            .catch((err) => console.log(err));
+            .catch(err => this.props.history.push("/error"));
     }
 
     handleInputChange = (event) => {
@@ -53,7 +62,7 @@ class LoggedIn extends Component {
                     });
                 }
             })
-            .catch((err) => console.log(err));
+            .catch(err => this.props.history.push("/error"));
     }
 
     render() {
@@ -61,7 +70,7 @@ class LoggedIn extends Component {
             return <Redirect to="/" />
         }
         return (
-            <div className="col-sm-4 order-sm-2">
+            <div className="col-md-4 order-md-2">
                 <div className="row justify-content-end">
                     <div className="col-auto col-md-4 uiTop mt-4">
                         { this.props.searched && 
@@ -73,7 +82,7 @@ class LoggedIn extends Component {
                     </div>
                 </div>
                 <br />
-                <div className="row">
+                <div className="row justify-content-center">
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group row">
                             <label htmlFor="destination" className="col-sm-2 col-form-label">To:</label>
@@ -88,16 +97,16 @@ class LoggedIn extends Component {
                             </div>
                         </div>
                         <div className="row justify-content-end">
-                            <div className="col-5">
+                            <div className="col-5 col-sm-4 col-md-5">
                                 <button type="submit" className="btn btn-primary">Send</button>
                             </div>
-                            <div className="col-5">
+                            <div className="col-5 col-sm-6 col-md-5">
                                 <button type="button" className="btn btn-primary btn-logout" onClick={this.handleLogOut}>Log Out</button>
                             </div>
                         </div>
                     </form>
                 </div>
-                <div className="row mt-5">
+                <div className="row my-5">
                     <div className="col">
                         <h3 className="text-center font-weight-bold">Previous Trips</h3>
                         <hr className="my-2" />
@@ -112,9 +121,19 @@ class LoggedIn extends Component {
                         </ol>
                     </div>
                 </div>
+                <div className="row justify-content-between">
+                    <div className="col-8 px-0 px-sm-1 col-md-6 col-lg-7 align-self-center text-center">
+                        <p className="mb-0 my-auto"><a href="darksky.net" target="_blank" rel="noopener noreferrer" className="text-reset">Weather powered by Darksky</a></p>
+                    </div>
+                    <div className="my-auto col-4 yelpContainer align-self-center mr-md-3">
+                        <a href="yelp.com" target="_blank" rel="noopener noreferrer">
+                            <img className="img-fluid" src={yelpLogo} alt="Yelp logo" />
+                        </a>
+                    </div>
+                </div>
             </div>
         );
     }
 }
 
-export default LoggedIn;
+export default withRouter(LoggedIn);

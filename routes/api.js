@@ -26,7 +26,7 @@ const verifyAndUpdate = (req, res, next) => {
             let dest = req.query.dest.toLowerCase().replace(/,/g, '');
             let prevSearch = user.previousSearches;
             // Update the user's search array
-            if (prevSearch.length = 3) {
+            if (prevSearch.length === 3) {
                 prevSearch.splice(0, 1);
                 prevSearch.push([start, dest]);
             } else {

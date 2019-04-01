@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 // Icon Imports
@@ -14,8 +14,7 @@ class Register extends Component {
         email: '',
         password: '',
         confirmPassword: '',
-        icon: airplaneIcon,
-        submitted: false
+        icon: airplaneIcon
     }
 
     handleInputChange = (event) => {
@@ -35,18 +34,14 @@ class Register extends Component {
         })
             .then(response => {
                 if (response.status === 200) {
-                    this.setState({
-                        submitted: true
-                    });
+                    this.props.userLogIn();
+                    this.props.history.push("/home");
                 }
             })
-            .catch((err) => console.log(err));
+            .catch(err => this.props.history.push("/error"));
     }
 
     render() {
-        if (this.state.submitted) {
-            return <Redirect to="/home" />
-        }
         return (
             <div className="modal fade typeText" id="registerModal" tabIndex="-1" role="dialog" aria-labelledby="registerModal" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered" role="document">
@@ -142,4 +137,4 @@ class Register extends Component {
     }
 }
 
-export default Register;
+export default withRouter(Register);

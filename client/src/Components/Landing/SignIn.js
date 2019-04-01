@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 class SignIn extends Component {
@@ -25,12 +25,15 @@ class SignIn extends Component {
         })
             .then(response => {
                 if (response.status === 200) {
+                    this.props.userLogIn();
                     this.setState({
                         submitted: true
                     });
+                } else {
+                   this.props.history.push("/error");
                 }
             })
-            .catch((err) => console.log(err));
+            .catch((err) => this.props.history.push("/error"));
     }
 
     render() {
@@ -77,4 +80,4 @@ class SignIn extends Component {
     }
 }
 
-export default SignIn;
+export default withRouter(SignIn);

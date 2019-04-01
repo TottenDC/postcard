@@ -67,7 +67,12 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(err.status || 500);
-    res.redirect(`/error?message=${err.message}`);
+    const errLog = {
+      status: err.status,
+      message: err.message,
+      stack: err.stack
+    };
+    res.json(errLog);
 });
   
 // Start port
