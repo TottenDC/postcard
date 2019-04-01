@@ -15,7 +15,7 @@ const app = express();
 app.set('port', process.env.PORT || 3001);
 
 // DB setup
-mongoose.connect('mongodb://localhost:27017/postcard', { useNewUrlParser: true });
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/postcard', { useNewUrlParser: true });
 const db = mongoose.connection;
 
 // DB error handling and initialization
