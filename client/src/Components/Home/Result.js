@@ -36,7 +36,7 @@ class Result extends Component {
                 <div className="row">
                     {this.props.weatherIcons.map((icon, index) => {
                         return (
-                            <div key={`d${index}`} className="col-md-4">
+                            <div key={`d${index}`} className="col-lg-4 text-center">
                                 <div className="card h-100 typeText">
                                     <img className="card-img-top" src={icon} alt="Weather icon" />
                                     <div className="card-body">
@@ -54,7 +54,7 @@ class Result extends Component {
                     <h3 className="font-weight-bold">Explore:</h3>
                 </div>
                 <div className="row justify-content-around">
-                    <div className="col-sm-5">
+                    <div className="col-md-5">
                         <p className="largestText">Check these places out</p>
                         <ol className="typeText">
                             {data[2].placeData.map((place,index) => {
@@ -68,7 +68,7 @@ class Result extends Component {
                             })}
                         </ol>
                     </div>
-                    <div className="col-sm-5">
+                    <div className="col-md-5">
                         <p className="largestText">I hope you're hungry</p>
                         <ol className="typeText">
                             {data[3].foodData.map((restaurant, index) => {

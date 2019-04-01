@@ -38,8 +38,8 @@ hr {
 }
 
 .card-img-top {
-  width: 75%;
-  transform: translateX(20%);
+  width: 50%;
+  transform: translateX(50%);
 
 }
 .card-text {
