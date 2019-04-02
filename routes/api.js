@@ -32,8 +32,7 @@ const verifyAndUpdate = (req, res, next) => {
             } else {
                 prevSearch.push([start, dest]);
             }
-            user.previousSearches = prevSearch;
-            user.save((err, user) => {
+            user.update({previousSearches: prevSearch}, (err, user) => {
                 if (err) {
                     err.status = 500;
                     return next(err);

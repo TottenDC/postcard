@@ -20,7 +20,7 @@ class SignIn extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
         axios.post('/login', {
-            email: this.state.signInEmail,
+            email: this.state.signInEmail.toLowerCase(),
             password: this.state.signInPassword
         })
             .then(response => {
