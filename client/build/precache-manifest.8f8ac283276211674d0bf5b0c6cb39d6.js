@@ -1,10 +1,10 @@
 self.__precacheManifest = [
   {
-    "revision": "757ad3ecdaba299e76b8d1ec1e395e98",
-    "url": "/static/media/stampOutline.757ad3ec.svg"
+    "revision": "9203a94b7f63d2fa8806d25aef7bfe36",
+    "url": "/static/media/stampedBorder.9203a94b.svg"
   },
   {
-    "revision": "a8c726ecdcf3d668de0d",
+    "revision": "2bfa6bcd12fad0e40f06",
     "url": "/static/css/main.f61f7794.chunk.css"
   },
   {
@@ -44,16 +44,16 @@ self.__precacheManifest = [
     "url": "/static/media/Yelp_trademark_RGB.9ea57640.png"
   },
   {
-    "revision": "9203a94b7f63d2fa8806d25aef7bfe36",
-    "url": "/static/media/stampedBorder.9203a94b.svg"
+    "revision": "757ad3ecdaba299e76b8d1ec1e395e98",
+    "url": "/static/media/stampOutline.757ad3ec.svg"
   },
   {
     "revision": "8420887167a9b4b4412fe4d1dddd4985",
     "url": "/static/media/mainborder.84208871.svg"
   },
   {
-    "revision": "a8c726ecdcf3d668de0d",
-    "url": "/static/js/main.35233b32.chunk.js"
+    "revision": "2bfa6bcd12fad0e40f06",
+    "url": "/static/js/main.4dd3d0d6.chunk.js"
   },
   {
     "revision": "bfb970aa51485f14f7fb0ddd93291f8c",
@@ -100,7 +100,7 @@ self.__precacheManifest = [
     "url": "/static/media/error.1e51be77.svg"
   },
   {
-    "revision": "62561ae4e08b166d4a3b82bbe548cece",
+    "revision": "83285d50eed2e6813df47e8b8d492d6a",
     "url": "/index.html"
   }
 ];

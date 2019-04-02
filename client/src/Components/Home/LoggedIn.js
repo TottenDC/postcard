@@ -123,10 +123,10 @@ class LoggedIn extends Component {
                 </div>
                 <div className="row justify-content-between">
                     <div className="col-8 px-0 px-sm-1 col-md-6 col-lg-7 align-self-center text-center">
-                        <p className="mb-0 my-auto"><a href="darksky.net" target="_blank" rel="noopener noreferrer" className="text-reset">Weather powered by Darksky</a></p>
+                        <p className="mb-0 my-auto"><a href="https://darksky.net/" target="_blank" rel="noopener noreferrer" className="text-reset">Weather powered by Darksky</a></p>
                     </div>
                     <div className="my-auto col-4 yelpContainer align-self-center mr-md-3">
-                        <a href="yelp.com" target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.yelp.com/" target="_blank" rel="noopener noreferrer">
                             <img className="img-fluid" src={yelpLogo} alt="Yelp logo" />
                         </a>
                     </div>
