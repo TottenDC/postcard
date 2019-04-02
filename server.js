@@ -1,4 +1,5 @@
 'use strict';
+process.env.NODE_ENV = 'production';
 
 // Modules
 const express = require('express');
