@@ -14,5 +14,5 @@ In separate terminal, go into the client folder and run `npm start` to set up th
 Alternatively, you can set your Node environment to production and only run `npm start` from the root directory.
 
 
-Final project is at [here](https://postcard-app.herokuapp.com/). Enjoy!
+Final project is [here](https://postcard-app.herokuapp.com/). Enjoy!
 
