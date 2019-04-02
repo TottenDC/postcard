@@ -44,7 +44,7 @@ app.use(express.json());
 // Route declarations
 // Serve React app as static asset in production
 if (process.env.NODE_ENV === "production") {
-    app.use(express.static("client/build"));
+    app.use(express.static('client/build'));
 }
 
 app.use(userRouter);
