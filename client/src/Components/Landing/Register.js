@@ -43,11 +43,11 @@ class Register extends Component {
 
     render() {
         return (
-            <div className="modal fade typeText" id="registerModal" tabIndex="-1" role="dialog" aria-labelledby="registerModal" aria-hidden="true">
+            <div className="modal fade" id="registerModal" tabIndex="-1" role="dialog" aria-labelledby="registerModal" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title" id="registerModalLabel">Register</h5>
+                            <h5 className="titleText font-weight-bold modal-title" id="registerModalLabel">Register</h5>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                             </button>

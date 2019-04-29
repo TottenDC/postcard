@@ -52,16 +52,16 @@ class SignIn extends Component {
                 </div>
                 <br />
                 <div className="row justify-content-center mb-2">
-                    <h4 className="text-center font-weight-bold">Sign In</h4>
+                    <h4 className="text-center titleText font-weight-bold">Sign In</h4>
                 </div>
                 <div className="row justify-content-center">
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group">
-                            <label htmlFor="signInEmail" className="font-weight-bold">Email address</label>
+                            <label htmlFor="signInEmail" className="titleText">Email address</label>
                             <input type="email" className="form-control" id="signInEmail" name="signInEmail" value={this.state.signInEmail} onChange={this.handleInputChange} aria-describedby="emailHelp" placeholder="example@email.com" required />
                         </div>
                         <div className="form-group">
-                            <label htmlFor="signInPassword" className="font-weight-bold">Password</label>
+                            <label htmlFor="signInPassword" className="titleText">Password</label>
                             <input type="password" className="form-control" id="signInPassword" name="signInPassword" value={this.state.signInPassword} onChange={this.handleInputChange} placeholder="Password" required />
                         </div>
                         <button type="submit" className="btn btn-primary">Submit</button>

@@ -85,13 +85,13 @@ class LoggedIn extends Component {
                 <div className="row justify-content-center">
                     <form onSubmit={this.handleSubmit}>
                         <div className="form-group row">
-                            <label htmlFor="destination" className="col-sm-2 col-form-label">To:</label>
+                            <label htmlFor="destination" className="titleText font-weight-bold col-sm-2 col-form-label">To:</label>
                             <div className="col-sm-10">
                                 <input type="text" className="form-control" id="destination" name="destination" value={this.state.destination} onChange={this.handleInputChange} placeholder="City, State" required />
                             </div>
                         </div>
                         <div className="form-group row">
-                            <label htmlFor="startLocation" className="col-sm-2 col-form-label">From:</label>
+                            <label htmlFor="startLocation" className="titleText font-weight-bold col-sm-2 col-form-label">From:</label>
                             <div className="col-sm-10">
                                 <input type="text" className="form-control" id="startLocation" name="startLocation" value={this.state.startLocation} onChange={this.handleInputChange} placeholder="City, State" required />
                             </div>
@@ -108,12 +108,12 @@ class LoggedIn extends Component {
                 </div>
                 <div className="row my-5">
                     <div className="col">
-                        <h3 className="text-center font-weight-bold">Previous Trips</h3>
+                        <h3 className="text-center titleText font-weight-bold">Previous Trips</h3>
                         <hr className="my-2" />
                         <ol>
                             {this.state.userPreviousSearches &&
                                 this.state.userPreviousSearches.map((search, index) => {
-                                    return <li key={`a${index}`} className="text-capitalize largerText">
+                                    return <li key={`a${index}`} className="text-capitalize">
                                                 <p>to {search[1]}</p>
                                                 <p>from {search[0]}</p>
                                             </li>

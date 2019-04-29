@@ -5,11 +5,11 @@ const About = () => {
         <div className="col-sm-8 order-sm-1 ">
             <div className="jumbotron mt-4">
                 <h1> Welcome to Postcard</h1>
-                <p className="lead">Safe travels!</p>
+                <p className="lead titleText">Safe travels!</p>
                 <hr className="my-4" />
-                <p className="typeText">Wanna quick getaway? Don't feel like browsing multiple sites to find basic travel information? Postcard is here to help.</p>
+                <p>Wanna quick getaway? Don't feel like browsing multiple sites to find basic travel information? Postcard is here to help.</p>
                 <br />
-                <p className="typeText">Find simple travel information, weather, places of interest, and restaurant options quickly with Postcard!</p>
+                <p>Find simple travel information, weather, places of interest, and restaurant options quickly with Postcard!</p>
             </div>
         </div>
     );

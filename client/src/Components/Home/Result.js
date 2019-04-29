@@ -27,9 +27,9 @@ class Result extends Component {
                 </div>
                 <div className="row justify-content-between mt-3">
                     <div className="col-sm-4 col-md-2">
-                        <h3 className="font-weight-bold">Weather:</h3>
+                        <h3 className="titleText font-weight-bold">Weather:</h3>
                     </div>
-                    <div className="col-sm-8 col-md-9 largestText">
+                    <div className="col-sm-8 col-md-9 largerText">
                         <p>{data[1].dailySummary}</p>
                     </div>
                 </div>
@@ -37,7 +37,7 @@ class Result extends Component {
                     {this.props.weatherIcons.map((icon, index) => {
                         return (
                             <div key={`d${index}`} className="col-lg-4 text-center">
-                                <div className="card h-100 typeText">
+                                <div className="card h-100">
                                     <img className="card-img-top" src={icon} alt="Weather icon" />
                                     <div className="card-body">
                                         <p className="card-title">{data[1].dailyData[index].summary}</p>
@@ -51,12 +51,12 @@ class Result extends Component {
                     
                 </div>
                 <div className="row mt-3 mb-2">
-                    <h3 className="font-weight-bold">Explore:</h3>
+                    <h3 className="titleText font-weight-bold">Explore:</h3>
                 </div>
                 <div className="row justify-content-around">
                     <div className="col-md-5">
-                        <p className="largestText">Check these places out</p>
-                        <ol className="typeText">
+                        <p className="titleText largerText">Check these places out</p>
+                        <ol>
                             {data[2].placeData.map((place,index) => {
                                 return (
                                     <li key={`b${index}`}>
@@ -69,8 +69,8 @@ class Result extends Component {
                         </ol>
                     </div>
                     <div className="col-md-5">
-                        <p className="largestText">I hope you're hungry</p>
-                        <ol className="typeText">
+                        <p className="titleText largerText">I hope you're hungry</p>
+                        <ol>
                             {data[3].foodData.map((restaurant, index) => {
                                 return (
                                     <li key={`c${index}`}>
